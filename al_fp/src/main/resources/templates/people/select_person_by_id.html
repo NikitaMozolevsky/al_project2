@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Select Person By ID</title>
+</head>
+<body>
+
+    PERSON:
+    <p th:text="${person.getName()} + ', ' + ${person.getBirthYear()}"></p>
+    <hr>
+    <div th:if="${books.size()==0}">
+        This person didn't take any books
+    </div>
+    <br>
+    <div th:unless="${books.size()==0}">
+        BOOKS:
+        <div th:each="book : ${books}">
+            <a th:text="${book.getName()} + ', ' + ${book.getAuthor()} + ', ' + ${book.getYear()}"></a>
+        </div>
+        <hr>
+    </div>
+
+    <form th:action="@{/people/{id}/edit(id=${person.getId()})}">
+        <input type="submit" value="Edit">
+    </form>
+    <br>
+    <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
+        <input type="submit" value="Delete">
+    </form>
+    <form th:action="@{/book}">
+        <input type="submit" value="Main page">
+    </form>
+</body>
+</html>

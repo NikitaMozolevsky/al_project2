@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Select Book By ID</title>
+</head>
+<body>
+
+    BOOK:
+    <br/>
+
+    <a th:text="${book.getName()} + ', ' + ${book.getAuthor()} + ', ' + ${book.getYear()}"></a>
+
+    <div th:if="${owner == null}">
+        This book is free. Who should I assign this book to ?
+        <br/>
+
+        <form th:method="PATCH" th:action="@{set/owner}">
+            <input type="hidden" th:object="${new_book}" th:field="*{id}" th:value="${book.getId()}"/>
+            <label for="person">Choose person:</label>
+                <select th:object="${new_book}" th:field="*{personId}" id="person">
+                    <option th:each="person : ${people}"
+                            th:value="${person.getId()}"
+                            th:text="${person.getName()}"></option>
+                </select>
+            <input type="submit" value="Assign the owner"/>
+        </form>
+    </div>
+
+    <div th:unless="${owner == null}">
+        <hr>
+        OWNER:
+        <br/>
+        <a th:text="${owner_name}"></a>
+        <form th:method="DELETE" th:action="@{/book/{id}/person(id=${book.getId()})}">
+            <input type="submit" value="Delete book">
+        </form>
+    </div>
+    <hr>
+
+    <form th:action="@{/book/{id}/edit(id=${book.getId()})}">
+        <input type="submit" value="Edit">
+    </form>
+    <br>
+    <form th:method="DELETE" th:action="@{/book/{id}(id=${book.getId()})}">
+        <input type="submit" value="Delete">
+    </form>
+    <br>
+    <form th:action="@{/book}">
+        <input type="submit" value="Main page">
+    </form>
+</body>
+</html>
