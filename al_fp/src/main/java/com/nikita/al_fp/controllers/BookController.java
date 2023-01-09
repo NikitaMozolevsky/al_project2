@@ -5,12 +5,13 @@ import com.nikita.al_fp.entity.Person;
 import com.nikita.al_fp.service.BookService;
 import com.nikita.al_fp.service.PersonService;
 import com.nikita.al_fp.util.BookValidator;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import javax.validation.Valid;
+
 
 @Controller
 @RequestMapping("/book")
@@ -62,14 +63,15 @@ public class BookController {
     }
 
     @PostMapping()
-    public String insertIntoBookAct(@ModelAttribute("book") @Valid Book book, // TODO: 11/15/2022
-                                      BindingResult bindingResult) {
+    public String insertIntoBookAct(@Valid @ModelAttribute("book") Book book, // TODO: 11/15/2022
+                                    BindingResult bindingResult) {
 
         bookValidator.validate(book, bindingResult);
 
         if(bindingResult.hasErrors()) {
             return "/book/insert_into_book_page";
         }
+
         bookService.addBook(book);
         return BOOK_REDIRECT_PAGE;
     }

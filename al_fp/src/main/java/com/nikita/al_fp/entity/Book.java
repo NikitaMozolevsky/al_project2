@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,7 +33,7 @@ public class Book {
     private Integer personId;
 
     @Column(name = "name")
-    @NotEmpty(message = "name should not be empty")
+    @NotBlank(message = "name should not be empty")
     @Size(min = 2, max = 30, message = "name should be between 2 and 30 characters")
     private String name;
 

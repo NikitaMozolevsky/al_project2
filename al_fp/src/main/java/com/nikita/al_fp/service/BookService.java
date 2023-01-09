@@ -91,13 +91,13 @@ public class BookService {
         int personIndex = personRepository.findAll().get(ZERO).getId();
 
         bookRepository.saveAll(List.of(
-                new Book(personIndex, "1989", "Billy Harington", 2014),
-                new Book(personIndex, "Fitch", "Adolf Hitler", 1998),
-                new Book(personIndex, "Gaz", "Amand Gas",1899),
-                new Book(personIndex, "Lenin", "Bigi Boo", 1956),
-                new Book(personIndex, "Gosha", "Zak Snider", 1999),
-                new Book(personIndex, "Bitch", "Peter Parker", 2020),
-                new Book(null, "Bitch2", "Peter Parker", 2022)
+                new Book(personIndex, "1989", "Billy, Harington", 2014),
+                new Book(personIndex, "Fitch", "Adolf, Hitler", 1998),
+                new Book(personIndex, "Gaz", "Amand, Gas",1899),
+                new Book(personIndex, "Lenin", "Bigi, Boo", 1956),
+                new Book(personIndex, "Gosha", "Zak, Snider", 1999),
+                new Book(personIndex, "Bitch", "Peter, Parker", 2020),
+                new Book(null, "Bitch2", "Peter, Parker", 2022)
         ));
     }
 }

@@ -3,13 +3,12 @@ package com.nikita.al_fp.controllers;
 import com.nikita.al_fp.entity.Person;
 import com.nikita.al_fp.service.PersonService;
 import com.nikita.al_fp.util.PersonValidator;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/people")
@@ -57,7 +56,7 @@ public class PeopleController {
         personValidator.validate(person, bindingResult);
 
         if(bindingResult.hasErrors()) {
-            return "people/insert_into_person_page";
+            return "/people/insert_into_person_page";
         }
         personService.addPerson(person);
         return PEOPLE_REDIRECT_PAGE;
