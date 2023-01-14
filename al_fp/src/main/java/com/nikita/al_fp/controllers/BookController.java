@@ -7,10 +7,15 @@ import com.nikita.al_fp.service.PersonService;
 import com.nikita.al_fp.util.BookValidator;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -32,8 +37,36 @@ public class BookController {
     }
 
     @GetMapping
-    public String selectBook(Model model) {
-        model.addAttribute("books", bookService.findAll());
+    public String selectBookHomePage(Model model) {
+        /*model.addAttribute("books", bookService.findAll());
+        return "/book/select_book";*/
+        return findPaginated(1, false, String.valueOf(false), model);
+    }
+
+    @GetMapping("/page/{pageNo}") // + "/{pageSize}" - optional
+    public String findPaginated(@PathVariable (value = "pageNo") int pageNo,
+                                @RequestParam (value = "sortByYear", required = false) boolean sortByYear,
+                                @RequestParam (value = "startWith", defaultValue = "false") String startWith,
+                                Model model) {
+        int pageSize = 3;
+        model.addAttribute("currentPage", pageNo);
+        Page<Book> bookPage;
+        List<Book> bookList;
+        //из Page объекта можно получить List
+        if (!startWith.equals("false")) {
+            bookList = bookService.findAllStartWith(startWith).get();
+            model.addAttribute("bookList", bookList);
+        } else {
+            bookPage = bookService.findAllPagination(pageNo, pageSize, sortByYear);
+            bookList = bookPage.getContent();
+            model.addAttribute("totalPages", bookPage.getTotalPages());
+            model.addAttribute("totalItems", bookPage.getTotalElements());
+
+        }
+
+        model.addAttribute("bookList", bookList);
+        model.addAttribute("bookListIsEmpty", bookList.isEmpty());
+
         return "/book/select_book";
     }
 

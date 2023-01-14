@@ -7,6 +7,9 @@ import com.nikita.al_fp.repository.PersonRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,8 +34,31 @@ public class BookService {
         this.entityManager = entityManager;
     }
 
-    public List<Book> findAll() {
-        return bookRepository.findAll();
+    public List<Book> findAll(boolean sortByYear) {
+        if (sortByYear) {
+            return bookRepository.findAll(Sort.by("year"));
+        }
+        else {
+            return bookRepository.findAll();
+        }
+    }
+/*
+    public Optional<List<Book>> findBooksByNameIsStartingWith(String name) {
+        return bookRepository.findBooksByNameIsStartingWith(name);
+    }*/
+
+    public Page<Book> findAllPagination(Integer pageNo, Integer pageSize,
+                                         boolean sortByYear) {
+        if (sortByYear) {
+            return bookRepository.findAll(PageRequest.of(pageNo - 1, pageSize, Sort.by("year")));
+        }
+        else {
+            return bookRepository.findAll(PageRequest.of(pageNo - 1, pageSize));
+        }
+    }
+
+    public Optional<List<Book>> findAllStartWith(String name) {
+        return bookRepository.findBooksByNameIsStartingWith(name);
     }
 
     public Optional<Book> findById(int id) {
