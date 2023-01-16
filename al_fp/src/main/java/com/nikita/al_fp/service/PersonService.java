@@ -9,6 +9,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,8 +52,18 @@ public class PersonService {
     }
 
     public Optional<List<Book>> findBooksByPersonId(int id) {
-
-        return bookRepository.findBooksByPersonId(id);
+        Optional<List<Book>> optionalBooks = bookRepository.findBooksByPersonId(id);
+        if (optionalBooks.isPresent()) {
+            List<Book> bookList = optionalBooks.get();
+            for(Book book : bookList) {
+                if (book.getReceiptDate()==null) {
+                    book.setReceiptDate(new Date());
+                }
+                book.setBookIsOverdue(book.bookIsOverdue());
+            }
+            return Optional.of(bookList);
+        }
+        return Optional.empty();
     }
 
     public boolean personIsExist(String name) {

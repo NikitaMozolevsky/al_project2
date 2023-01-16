@@ -13,9 +13,11 @@
 
 <br>
 <a th:href="@{'/book/page/' + ${currentPage} + '?sortByYear=true'}">Sort by year</a>&nbsp;
+<br/>
 <form th:action="@{'/book/page/' + ${currentPage} + '?startWith=' + ${startWith}}">
-    <input name="startWith" type="text" th:value="*{startWith}">
-    <input type="submit">
+    Enter a search query
+    <input name="startWith" type="text" th:value="*{startWith}" th:placeholder="${startWith}">
+    <input type="submit" th:value="Search">
 </form>
 <br>
  <div th:each="book : ${bookList}">

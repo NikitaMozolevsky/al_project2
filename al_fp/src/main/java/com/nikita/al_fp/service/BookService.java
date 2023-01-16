@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -109,6 +110,7 @@ public class BookService {
     public void deletePersonFromBook(int bookId) {
         Book book = findById(bookId).get();
         book.setPersonId(null);
+        book.setReceiptDate(null);
         updateBook(bookId, book);
     }
 
@@ -117,8 +119,8 @@ public class BookService {
         int personIndex = personRepository.findAll().get(ZERO).getId();
 
         bookRepository.saveAll(List.of(
-                new Book(personIndex, "1989", "Billy, Harington", 2014),
-                new Book(personIndex, "Fitch", "Adolf, Hitler", 1998),
+                new Book(personIndex, "1989", "Billy, Harington", 2014, new Date(0)),
+                new Book(personIndex, "Fitch", "Adolf, Hitler", 1998, new Date(0)),
                 new Book(personIndex, "Gaz", "Amand, Gas",1899),
                 new Book(personIndex, "Lenin", "Bigi, Boo", 1956),
                 new Book(personIndex, "Gosha", "Zak, Snider", 1999),

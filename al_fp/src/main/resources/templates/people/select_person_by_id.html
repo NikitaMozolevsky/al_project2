@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!--suppress ALL-->
+
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -17,7 +17,12 @@
     <div th:unless="${books.size()==0}">
         BOOKS:
         <div th:each="book : ${books}">
-            <a th:text="${book.getName()} + ', ' + ${book.getAuthor()} + ', ' + ${book.getYear()}"></a>
+            <div th:if="${book.isBookIsOverdue()==true}">
+                <a style="color:red" th:text="${book.getName()} + ', ' + ${book.getAuthor()} + ', ' + ${book.getYear()}">
+            </div>
+            <div th:unless="${book.isBookIsOverdue()}">
+                <a th:text="${book.getName()} + ', ' + ${book.getAuthor()} + ', ' + ${book.getYear()}">
+            </div>
         </div>
         <hr>
     </div>
