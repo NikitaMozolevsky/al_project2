@@ -31,8 +31,8 @@ public class BookController {
         this.bookValidator = bookValidator;
         this.personService = personService;
         this.bookService = bookService;
-        personService.startProgramProcessPerson();
-        bookService.startProgramProcessBook();
+        /*personService.startProgramProcessPerson();
+        bookService.startProgramProcessBook();*/
     }
 
     @GetMapping

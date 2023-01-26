@@ -1,29 +1,18 @@
 package com.nikita.al_fp.config;
 
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.thymeleaf.spring6.SpringTemplateEngine;
-import org.thymeleaf.templateresolver.FileTemplateResolver;
+import org.springframework.core.Ordered;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 
 @Configuration
-public class ThymeleafExtension {
+class DefaultView implements WebMvcConfigurer {
 
-    private final SpringTemplateEngine templateEngine;
-
-    @Autowired
-    public ThymeleafExtension(SpringTemplateEngine templateEngine) {
-        this.templateEngine = templateEngine;
-    }
-
-    @PostConstruct
-    public void extension() {
-        FileTemplateResolver resolver = new FileTemplateResolver();
-        resolver.setPrefix("C:\\IdeaProjects\\al_project2\\al_fp\\src\\main\\resources\\templates");
-        resolver.setSuffix(".html");
-        resolver.setTemplateMode("HTML5");
-        resolver.setOrder(templateEngine.getTemplateResolvers().size());
-        resolver.setCacheable(false);
-        templateEngine.addTemplateResolver(resolver);
+    @Override
+    public void addViewControllers( ViewControllerRegistry registry ) {
+        registry.addViewController( "/" ).setViewName( "forward:/book.html" );
+        registry.setOrder( Ordered.HIGHEST_PRECEDENCE );
+        WebMvcConfigurer.super.addViewControllers( registry );
     }
 }

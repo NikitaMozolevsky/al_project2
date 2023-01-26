@@ -4,17 +4,17 @@ import com.nikita.al_fp.entity.Book;
 import com.nikita.al_fp.entity.Person;
 import com.nikita.al_fp.repository.BookRepository;
 import com.nikita.al_fp.repository.PersonRepository;
+import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import static org.hibernate.type.descriptor.java.IntegerJavaType.ZERO;
-
+@Transactional()
 @Service
 public class PersonService {
     private final BookRepository bookRepository;
@@ -74,6 +74,7 @@ public class PersonService {
         }
     }
 
+    @PostConstruct
     public void startProgramProcessPerson() {
         personRepository.deleteAll();
         personRepository.saveAll(List.of(

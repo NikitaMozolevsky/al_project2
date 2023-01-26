@@ -37,6 +37,10 @@ public class Person {
         this.birthYear = birthYear;
     }
 
+    public Person(int id) {
+        this.id = id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

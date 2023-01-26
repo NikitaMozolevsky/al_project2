@@ -14,6 +14,8 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     Optional<List<Book>> findBooksByPersonId(int id);
     Optional<List<Book>> findBooksByName(String name);
     Optional<List<Book>> findBooksByNameIsStartingWith(String startWith);
+    Book findByAuthor(String author);
+    Book findTopByOrderByIdDesc();
 
     @Query(
             value = "SELECT * FROM USERS u WHERE u.status = 1",

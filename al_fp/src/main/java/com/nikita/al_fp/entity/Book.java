@@ -35,6 +35,14 @@ public class Book {
         this.receiptDate = receiptDate;
     }
 
+    public Book(int id, Integer personId, String name, String author, int year) {
+        this.id = id;
+        this.personId = personId;
+        this.name = name;
+        this.author = author;
+        this.year = year;
+    }
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,6 +72,11 @@ public class Book {
 
     @Transient
     private boolean bookIsOverdue;
+
+    public Book(int id, int personId) {
+        this.id = id;
+        this.personId = personId;
+    }
 
     public int getId() {
         return id;

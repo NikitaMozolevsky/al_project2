@@ -4,9 +4,11 @@ import com.nikita.al_fp.entity.Book;
 import com.nikita.al_fp.entity.Person;
 import com.nikita.al_fp.repository.BookRepository;
 import com.nikita.al_fp.repository.PersonRepository;
+import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -23,16 +25,16 @@ import static org.hibernate.type.descriptor.java.IntegerJavaType.ZERO;
 public class BookService {
 
     private final BookRepository bookRepository;
+
     private final PersonRepository personRepository;
 
     @PersistenceContext
-    private final EntityManager entityManager;
+    private EntityManager entityManager;
 
-    public BookService(BookRepository bookRepository,
-                       PersonRepository personRepository, EntityManager entityManager) {
+    @Autowired
+    public BookService(BookRepository bookRepository, PersonRepository personRepository) {
         this.bookRepository = bookRepository;
         this.personRepository = personRepository;
-        this.entityManager = entityManager;
     }
 
     public List<Book> findAll(boolean sortByYear) {
@@ -66,8 +68,9 @@ public class BookService {
         return bookRepository.findById(id);
     }
 
-    public void addBook(Book book) {
+    public boolean addBook(Book book) {
         bookRepository.save(book);
+        return true;
     }
 
     public void updateBook(int id, Book book) {
@@ -114,6 +117,7 @@ public class BookService {
         updateBook(bookId, book);
     }
 
+    @PostConstruct
     public void startProgramProcessBook() {
         bookRepository.deleteAll();
         int personIndex = personRepository.findAll().get(ZERO).getId();
